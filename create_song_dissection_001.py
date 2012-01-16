@@ -4,7 +4,7 @@ my changes are:
 - the String constants for machine uri
 - io_vals defaults
 - added to_note ( which is a modified version of a snippet by calvin )
-- other convenience functinos like   from_chord and  app_wait
+- other convenience functions like   from_chord and  app_wait
  '''
 import armstrong
 import buze
