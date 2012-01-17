@@ -230,9 +230,8 @@ app.set_wait_text("~shuffle~")
 app_wait(1)
 
 # vestigial
-# And insert a bass-line
-for n in range(PATTERN_LENGTH/4):
-  t = 2+n*4 # omPA
+n = int(PATTERN_LENGTH/4) - 1
+t = 2+n*4
 
 
 # Stabbed chords
