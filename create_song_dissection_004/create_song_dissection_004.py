@@ -5,7 +5,9 @@ my changes are:
 - io_vals defaults
 - added to_note ( which is a modified version of a snippet by calvin )
 - other convenience functions like   from_chord and  app_wait
- '''
+- some thoughts on riff creation.
+
+'''
 import armstrong
 import buze
 import random
@@ -192,41 +194,43 @@ app.set_wait_text("~shuffle~")
 # calculate real delay - but you should use multiple timesources. but look at meeeeee......
 app_wait(1)
 
-'''
-Create tick list
-'''
 
-PATTERN_LENGTH = 256
-steps = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
-phrase_length = 32
+def create_riff_1():
+    '''Create tick list'''
+    
+    PATTERN_LENGTH = 256
+    steps = [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+    phrase_length = 32
 
-repeats = int(PATTERN_LENGTH / phrase_length)
-expanded_tick_sequence = []
+    repeats = int(PATTERN_LENGTH / phrase_length)
+    expanded_tick_sequence = []
 
-nominal_tick_position = 0
-for repeat in range(repeats):
-    for entry in steps:
-        expanded_tick_sequence.append(entry + nominal_tick_position)
-    nominal_tick_position += 32
+    nominal_tick_position = 0
+    for repeat in range(repeats):
+        for entry in steps:
+            expanded_tick_sequence.append(entry + nominal_tick_position)
+        nominal_tick_position += 32
 
-for tick_event in expanded_tick_sequence:
-  if tick_event >= 0:
- 	notes = from_chord(["C-3", "E-3", "B-3", "G-2"])
-  if tick_event >= 64:
-    notes = from_chord(["D-3", "F#3", "B-3", "G-3"])
-  if tick_event >= 128:
-    notes = from_chord(["C#3", "E-3", "B-3", "A-2"])
-  if tick_event >= 176:
-    notes = from_chord(["C#3", "Eb3", "F#3", "Bb3"])
-  if tick_event >= 208:
-    notes = from_chord(["C#3", "F-3", "F#3", "Bb3"])
+    for tick_event in expanded_tick_sequence:
+      if tick_event >= 0:
+        notes = from_chord(["C-3", "E-3", "B-3", "G-2"])
+      if tick_event >= 64:
+        notes = from_chord(["D-3", "F#3", "B-3", "G-3"])
+      if tick_event >= 128:
+        notes = from_chord(["C#3", "E-3", "B-3", "A-2"])
+      if tick_event >= 176:
+        notes = from_chord(["C#3", "Eb3", "F#3", "Bb3"])
+      if tick_event >= 208:
+        notes = from_chord(["C#3", "F-3", "F#3", "Bb3"])
 
-  for track, note in enumerate(notes):
-    pattern.insert_value(chordnoteplug.get_id(), 2, track, 0, tick_event, note, 0)
-    pattern.insert_value(chordnoteplug.get_id(), 2, track, 0, tick_event+1, to_note("off"), 0) # note off
+      for track, note in enumerate(notes):
+        pattern.insert_value(chordnoteplug.get_id(), 2, track, 0, tick_event, note, 0)
+        pattern.insert_value(chordnoteplug.get_id(), 2, track, 0, tick_event+1, to_note("off"), 0) # note off
+      
+    app_wait(6)
+
+create_riff_1()
   
-app_wait(6)
-
 
 # Loop and tidy
 pattern.set_loop_start(0)
