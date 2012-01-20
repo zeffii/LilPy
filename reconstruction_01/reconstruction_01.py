@@ -20,19 +20,15 @@ def create_machine(uri, position, tracks, name):
 
   
 def connect_machines(chain):
-  chained_machines = chain.split(" > ")
-  
-  for machine in range(len(chained_machines)-1):
-    first_machine = chained_machines[machine]
-    second_machine = chained_machines[machine+1]
-
-    from_machine = player.get_plugin_by_name(first_machine)
-    to_machine = player.get_plugin_by_name(second_machine)
-    
+  machines = chain.split(" > ")
+  for machine in range(len(machines)-1):
+    from_machine = player.get_plugin_by_name(machines[machine])
+    to_machine = player.get_plugin_by_name(machines[machine+1])
     to_machine.create_audio_connection(from_machine, 0, 2, 0, 2)
+  print("connected: " + chain)
 
   
-lunarSynth = create_machine(LUNAR_SYNTH, (-1,0), 6, "Synth")
-funkyVerg = create_machine(FUNKY_VERB, (-0.5, 0), 0, "FunkyVerb")
+lunarSynth = create_machine(LUNAR_SYNTH, (-1, 0), 6, "Synth")
+funkyVerb = create_machine(FUNKY_VERB, (-0.5, 0), 0, "FunkyVerb")
 
 connect_machines("Synth > FunkyVerb > Master")
