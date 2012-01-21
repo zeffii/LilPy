@@ -112,5 +112,61 @@ bassline_format = create_simple_format_from_machine(bassline_synth)
 # now we have the formats and can create a mixed_format
 mixed_format = player.create_pattern_format("MixFormat")
 
+# decide the order in which you want to populate MixFormat with your machines
+'''
+there is room to craft a much more elegant function, but that is for lateron.
+    |bassline(all)|
+    |beats(all)
+    !snare(all)
+    |verb(wet)
+'''
+# def add_columns_to_format_from_plugin(plugin, parameter_group, track
+
+
+#add the entire bassline synth to MixFormat
+column_idx = 0
+
+# bassline
+num_gparams = bassline_synth.get_parameter_count(1, 0)
+for i in range(num_gparams):
+    mixed_format.add_column(bassline_synth, 1, 0, i, column_idx)
+    column_idx += 1
+
+num_tparams = bassline_synth.get_parameter_count(2,0)
+for i in range(num_tparams):
+    mixed_format.add_column(bassline_synth, 2, 0, i, column_idx)
+    column_idx += 1
+
+    
+# beats
+num_gparams = matilde1.get_parameter_count(1, 0)
+for i in range(num_gparams):
+    mixed_format.add_column(matilde1, 1, 0, i, column_idx)
+    column_idx += 1
+
+num_tracks_in_tparams = matilde1.get_track_count(2)
+for track in range(num_tracks_in_tparams):
+    num_tparams = matilde1.get_parameter_count(2,0)
+    for i in range(num_tparams):
+        mixed_format.add_column(matilde1, 2, track, i, column_idx)
+        column_idx += 1
+
+
+# snare
+num_gparams = matilde2.get_parameter_count(1, 0)
+for i in range(num_gparams):
+    mixed_format.add_column(matilde2, 1, 0, i, column_idx)
+    column_idx += 1
+
+num_tracks_in_tparams = matilde2.get_track_count(2)
+for track in range(num_tracks_in_tparams):
+    num_tparams = matilde2.get_parameter_count(2,0)
+    for i in range(num_tparams):
+        mixed_format.add_column(matilde2, 2, track, i, column_idx)
+        column_idx += 1
+
+# verb, one parameter wet, param 10 (index 9) in verb_effect plugin
+mixed_format.add_column(verb_effect, 1, 0, 9, column_idx)
+column_idx += 1
 
 
