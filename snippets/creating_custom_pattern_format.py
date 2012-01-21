@@ -112,14 +112,7 @@ bassline_format = create_simple_format_from_machine(bassline_synth)
 # now we have the formats and can create a mixed_format
 mixed_format = player.create_pattern_format("MixFormat")
 
-# decide the order in which you want to populate MixFormat with your machines
-'''
-there is room to craft a much more elegant function, but that is for lateron.
-    |bassline(all)|
-    |beats(all)
-    !snare(all)
-    |verb(wet)
-'''
+
 def add_columns_to_format_from_plugin(format, plugin):
     global column_idx
 
@@ -136,15 +129,23 @@ def add_columns_to_format_from_plugin(format, plugin):
             column_idx += 1
 
 
+def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
+    global column_idx
+    for column in subset:
+        format.add_column(plugin, group, track, column, column_idx)
+        column_idx += 1
+
+# say i want   |bassline(all) | |beats(all) ! snare(all) |verb(wet)
 column_idx = 0
 
 # bassline, beats, snare
 add_columns_to_format_from_plugin(mixed_format, bassline_synth)
 add_columns_to_format_from_plugin(mixed_format, matilde1)
 add_columns_to_format_from_plugin(mixed_format, matilde2)
-
 # verb, one parameter wet, param 10 (index 9) in verb_effect plugin
-mixed_format.add_column(verb_effect, 1, 0, 9, column_idx)
+subset = [9]   # or something like ..[2,3,4,9]
+add_subset_to_format_from_plugin(mixed_format, verb_effect, 1, 0, subset)
+
 column_idx += 1
 
 
