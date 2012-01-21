@@ -62,6 +62,18 @@ def count_format_columns(format):
     return column_counter
 
 
+def add_tracks_to_tparams(plugin, format, tracks_to_add):
+    # configure format, currently default
+    tracks_to_add = 4
+    column_idx = count_format_columns(format)
+    for i in range(tracks_to_add):
+        # needs to be aware of how many columns per tparam track TODO
+        format.add_column(plugin, group=2, track=1+i, column=0, idx=column_idx)
+        format.add_column(plugin, group=2, track=1+i, column=1, idx=column_idx+1)
+        column_idx+=2
+    return format
+
+
 def create_simple_format_from_machine(plugin):
     plugin_name = plugin.get_name()
     format_name = "[default "+ plugin_name + "]"
@@ -80,6 +92,13 @@ def create_simple_format_from_machine(plugin):
         param_type = plugin.get_parameter(2, 0,i)
         default_format.add_column(plugin, 2, 0, i, num_gparams + i)
 
+    # add more tparams to the format if we specified more than 1 track.
+    # this assumes the current format only has 1 track. in tparams.
+    num_tracks = plugin.get_track_count(2)
+    if num_tracks > 1:
+        num_tracks_to_add = num_tracks - 1
+        default_format = add_tracks_to_tparams(plugin, default_format, num_tracks_to_add)
+    
     print("Created: " + format_name)
     print("g_params: %d" % num_gparams)
     print("t_params (params in note track) %d" % num_tparams)
@@ -93,15 +112,5 @@ bassline_format = create_simple_format_from_machine(bassline_synth)
 # now we have the formats and can create a mixed_format
 mixed_format = player.create_pattern_format("MixFormat")
 
-'''
 
-
-# configure format, currently default
-tracks_to_add = 4
-column_idx = count_format_columns(format)
-for i in range(tracks_to_add):
-    format.add_column(plugin, group=2, track=1+i, column=0, idx=column_idx)
-    format.add_column(plugin, group=2, track=1+i, column=1, idx=column_idx+1)
-    column_idx+=2
-'''
 
