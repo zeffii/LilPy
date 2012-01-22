@@ -102,6 +102,13 @@ def add_columns_to_format_from_plugin(format, plugin):
 
 
 def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
+    '''
+    format:     format to add to
+    plugin:     plugin to add from
+    group:      group to add from
+    track:       track in group to add from
+    subset:     list of 1 or more parameters to add.  f.ex [2,4,5,9] of lunar verb.
+    '''
     column_idx = count_format_columns(format)
     for column in subset:
         format.add_column(plugin, group, track, column, column_idx)
@@ -123,17 +130,10 @@ connect_machines("Beats > Master")
 connect_machines("Snares > SnareFX > Master")
 connect_machines("Bassline > Master")
 
-matilde1_format = create_simple_format_from_machine(matilde1)
-matilde2_format = create_simple_format_from_machine(matilde2)
-fxVerb_format = create_simple_format_from_machine(verb_effect)
-bassline_format = create_simple_format_from_machine(bassline_synth)
-
 # MixFormat = bassline(all) + beats(all) + snare(all) + verb(wet=9)
 mixed_format = player.create_pattern_format("MixFormat")
-add_columns_to_format_from_plugin(mixed_format, bassline_synth)
-add_columns_to_format_from_plugin(mixed_format, matilde1)
-add_columns_to_format_from_plugin(mixed_format, matilde2)
-subset = [9]   # or something like ..[2,3,4,9] 
-add_subset_to_format_from_plugin(mixed_format, verb_effect, 1, 0, subset)
+for machine in [bassline_synth, matilde1, matilde2]:
+    add_columns_to_format_from_plugin(mixed_format, machine)
+add_subset_to_format_from_plugin(mixed_format, verb_effect, 1, 0, [9])
 
 player.history_commit(0, 0, "Added Formats")
