@@ -115,7 +115,6 @@ def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
         column_idx += 1
 
 
-        
 matilde_1_location = (0, -1)
 matilde_2_location = (.25, -1)
 bassline_synth_location = (-.25, -1)
