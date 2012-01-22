@@ -86,25 +86,27 @@ def create_simple_format_from_machine(plugin):
 
 
 def add_columns_to_format_from_plugin(format, plugin):
-    column_idx = count_format_columns(format)
+    
+    def add_track_from_group(format, plugin, group, track):
+        column_idx = count_format_columns(format)
+        num_params = plugin.get_parameter_count(group, track)
+        for i in range(num_params):
+            format.add_column(plugin, group, track, i, column_idx)
+            column_idx += 1
 
-    num_gparams = plugin.get_parameter_count(1, 0)
-    for i in range(num_gparams):
-        format.add_column(plugin, 1, 0, i, column_idx)
-        column_idx += 1
+    # g_params
+    add_track_from_group(format, plugin, 1, 0)
 
+    # t_params
     num_tracks_in_tparams = plugin.get_track_count(2)
     for track in range(num_tracks_in_tparams):
-        num_tparams = plugin.get_parameter_count(2,0)
-        for i in range(num_tparams):
-            format.add_column(plugin, 2, track, i, column_idx)
-            column_idx += 1
+        add_track_from_group(format, plugin, 2, track)
 
 
 def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
     '''
     format:     format to add to
-    plugin:     plugin to add from
+    plugin:      plugin to add from
     group:      group to add from
     track:       track in group to add from
     subset:     list of 1 or more parameters to add.  f.ex [2,4,5,9] of lunar verb.
