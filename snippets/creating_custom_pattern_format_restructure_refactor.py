@@ -56,35 +56,6 @@ def add_tracks_to_tparams(plugin, format, tracks_to_add):
     return format
 
 
-def create_simple_format_from_machine(plugin):
-    plugin_name = plugin.get_name()
-    format_name = "[default "+ plugin_name + "]"
-    default_format = player.create_pattern_format(format_name)
-    loader = plugin.get_pluginloader()
-    
-    #  global parameters
-    num_gparams = plugin.get_parameter_count(1, 0)
-    for i in range(num_gparams):
-        param_type = plugin.get_parameter(1, 0, i)
-        default_format.add_column(plugin, 1, 0, i, i)
-    
-    # track parameters
-    num_tparams = plugin.get_parameter_count(2, 0)
-    for i in range(num_tparams):
-        param_type = plugin.get_parameter(2, 0,i)
-        default_format.add_column(plugin, 2, 0, i, num_gparams + i)
-
-    # add more tparams to the format if we specified more than 1 track.
-    # this assumes the current format only has 1 track. in tparams.
-    num_tracks = plugin.get_track_count(2)
-    if num_tracks > 1:
-        num_tracks_to_add = num_tracks - 1
-        default_format = add_tracks_to_tparams(plugin, default_format, num_tracks_to_add)
-
-    printInfo(format_name, num_gparams, num_tparams)
-    return default_format
-
-
 def add_columns_to_format_from_plugin(format, plugin):
     
     def add_track_from_group(format, plugin, group, track):
@@ -101,6 +72,20 @@ def add_columns_to_format_from_plugin(format, plugin):
     num_tracks_in_tparams = plugin.get_track_count(2)
     for track in range(num_tracks_in_tparams):
         add_track_from_group(format, plugin, 2, track)
+
+
+def create_simple_format_from_machine(plugin):
+    plugin_name = plugin.get_name()
+    format_name = "[default "+ plugin_name + "]"
+    default_format = player.create_pattern_format(format_name)
+
+    add_columns_to_format_from_plugin(default_format, plugin)
+    #  global parametersm, track parameters
+    num_gparams = plugin.get_parameter_count(1, 0)
+    num_tparams = plugin.get_parameter_count(2, 0)
+    printInfo(format_name, num_gparams, num_tparams)
+
+    return default_format
 
 
 def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
@@ -137,4 +122,12 @@ for machine in [bassline_synth, matilde1, matilde2]:
     add_columns_to_format_from_plugin(mixed_format, machine)
 add_subset_to_format_from_plugin(mixed_format, verb_effect, 1, 0, [9])
 
-player.history_commit(0, 0, "Added Formats")
+player.history_commit(0, 0, "Added Mixed Format")
+
+# add pattern formats for each machine, if you need to 
+matilde1_format = create_simple_format_from_machine(matilde1)
+matilde2_format = create_simple_format_from_machine(matilde2)
+fxVerb_format = create_simple_format_from_machine(verb_effect)
+bassline_format = create_simple_format_from_machine(bassline_synth)
+
+player.history_commit(0, 0, "Added Default Formats")
