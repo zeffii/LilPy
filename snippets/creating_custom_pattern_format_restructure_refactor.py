@@ -86,7 +86,7 @@ def create_simple_format_from_machine(plugin):
 
 
 def add_columns_to_format_from_plugin(format, plugin):
-    global column_idx
+    column_idx = count_format_columns(format)
 
     num_gparams = plugin.get_parameter_count(1, 0)
     for i in range(num_gparams):
@@ -102,7 +102,7 @@ def add_columns_to_format_from_plugin(format, plugin):
 
 
 def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
-    global column_idx
+    column_idx = count_format_columns(format)
     for column in subset:
         format.add_column(plugin, group, track, column, column_idx)
         column_idx += 1
@@ -128,15 +128,12 @@ matilde2_format = create_simple_format_from_machine(matilde2)
 fxVerb_format = create_simple_format_from_machine(verb_effect)
 bassline_format = create_simple_format_from_machine(bassline_synth)
 
-# MixFormat = bassline(all) + beats(all) + snare(all) + verb(wet)
+# MixFormat = bassline(all) + beats(all) + snare(all) + verb(wet=9)
 mixed_format = player.create_pattern_format("MixFormat")
-
-column_idx = 0
 add_columns_to_format_from_plugin(mixed_format, bassline_synth)
 add_columns_to_format_from_plugin(mixed_format, matilde1)
 add_columns_to_format_from_plugin(mixed_format, matilde2)
-# verb, one parameter, wet = param 10 (index 9) in verb_effect plugin
-subset = [9]   # or something like ..[2,3,4,9]
+subset = [9]   # or something like ..[2,3,4,9] 
 add_subset_to_format_from_plugin(mixed_format, verb_effect, 1, 0, subset)
 
 player.history_commit(0, 0, "Added Formats")
