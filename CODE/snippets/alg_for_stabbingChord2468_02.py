@@ -3,7 +3,7 @@ from random import randint
 PATTERN_LENGTH = 64;
 
 # testing reproducable effects first
-random.seed(0)
+random.seed(1)
 
 
 # we can avoid looking at the mechanics for a while
@@ -41,10 +41,10 @@ def get_tick_triggers():
             step = get_step_distance(get_skip_list(0))
             if step == 0:
                 tick_triggers.append(tick)
-                step = get_step_distance(get_skip_list(1))
                 tick += step
-            tick_triggers.append(tick)
+                step = get_step_distance(get_skip_list(1))
             tick += step
+            tick_triggers.append(tick)
         else:
             step = get_step_distance(get_skip_list(2))
             if tick+step < PATTERN_LENGTH:
