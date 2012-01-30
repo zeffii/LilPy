@@ -205,7 +205,7 @@ for tick_event in range(0, PATTERN_LENGTH, 8):
     kick_pattern.insert_value(kicksynth.get_id(), 2, 0, 0, tick_event, 1, 0)
 
 
-# add stabs to the first track of the sequence_pattern
+# add stabs to the first track of the sequence_pattern, assumes presence of one track.
 seq_plug = player.get_plugin_by_name("Pattern")
 sequence_pattern = player.get_pattern_by_name("00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 0, 0, 0, stabs_pattern.get_id(), 0)
@@ -214,9 +214,9 @@ sequence_pattern.set_display_resolution(16)
 player.history_commit(0, 0, "Added Stabs Pattern to Sequence Pattern 00")
 
 
-# TODO PLACE ELSEWHERE, REWRITE TO ALLOW num_tracks to add, isntead of 1.
+# REFACTOR FOLLOWING.
 # I'm putting this here for convenience now.
-def add_track_to_sequence_pattern(pattern_name):
+def add_track_to_sequence_pattern(track, pattern_name):
     seq_plug = player.get_plugin_by_name("Pattern")
     current_count = seq_plug.get_track_count(2)
     seq_plug.set_track_count(current_count + 1)
@@ -225,16 +225,21 @@ def add_track_to_sequence_pattern(pattern_name):
     seq_pat_format = seq_pat.get_format()
     # add_column(plugin, group, track, i, column_idx)
     current_count = seq_plug.get_track_count(2)
-    seq_pat_format.add_column(seq_plug, 2, 1, 0, current_count-1)
+    seq_pat_format.add_column(seq_plug, 2, track, 0, current_count-1)
 
 def add_tracks_to_sequence_pattern(num_tracks, pattern_name):
+    seq_plug = player.get_plugin_by_name("Pattern")
+    current_count = seq_plug.get_track_count(2)
+    
     for i in range(num_tracks):
-        add_track_to_sequence_pattern(pattern_name)
+        track = current_count + i - 1
+        add_track_to_sequence_pattern(track, pattern_name)
     player.history_commit(0, 0, "Added %d tracks to Sequence Pattern 00" % num_tracks)
 
 # add lunarkick track to Sequence, add pattern column first.
 # insert_value(self, pluginid, group, track, column, time, value, meta):
-add_tracks_to_sequence_pattern(5, "00")
+# add_tracks_to_sequence_pattern(5, "00")
+add_track_to_sequence_pattern(1, "00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 1, 0, 0, kick_pattern.get_id(), 0)
 player.history_commit(0, 0, "Added Kick Pattern to Sequence Pattern 00")
 # set tpb = 8
