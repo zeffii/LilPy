@@ -241,7 +241,6 @@ def add_tracks_to_sequence_pattern(num_tracks, pattern_name):
 # add lunarkick track to Sequence, add pattern column first.
 # insert_value(self, pluginid, group, track, column, time, value, meta):
 add_tracks_to_sequence_pattern(5, "00")
-# add_track_to_sequence_pattern(1, "00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 1, 0, 0, kick_pattern.get_id(), 0)
 player.history_commit(0, 0, "Added Kick Pattern to Sequence Pattern 00")
 # set tpb = 8
