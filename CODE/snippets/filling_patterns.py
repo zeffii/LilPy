@@ -211,6 +211,7 @@ sequence_pattern = player.get_pattern_by_name("00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 0, 0, 0, stabs_pattern.get_id(), 0)
 sequence_pattern.set_row_count(128)
 sequence_pattern.set_display_resolution(16)
+player.history_commit(0, 0, "Added Stabs Pattern to Sequence Pattern 00")
 
 
 # TODO PLACE ELSEWHERE, REWRITE TO ALLOW num_tracks to add, isntead of 1.
@@ -225,11 +226,11 @@ def add_track_to_sequence_pattern(pattern_name):
     # add_column(plugin, group, track, i, column_idx)
     current_count = seq_plug.get_track_count(2)
     seq_pat_format.add_column(seq_plug, 2, 1, 0, current_count-1)
-
+    player.history_commit(0, 0, "Added n tracks to Sequence Pattern 00")
 
 # add lunarkick track to Sequence, add pattern column first.
 # insert_value(self, pluginid, group, track, column, time, value, meta):
 add_track_to_sequence_pattern("00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 1, 0, 0, kick_pattern.get_id(), 0)
-
+player.history_commit(0, 0, "Added Kick Pattern to Sequence Pattern 00")
 # set tpb = 8
