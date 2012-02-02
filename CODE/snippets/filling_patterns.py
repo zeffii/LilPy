@@ -6,6 +6,7 @@ import sys
 from pattern_helper import to_note
 from pattern_helper import from_chord
 
+random.seed(3)
 # assumption : that a master plugin ("Master")  is present in the document.
 doc = mainframe.get_document()
 player = doc.get_player()
@@ -17,6 +18,7 @@ LUNAR_KICK = "@trac.zeitherrschaft.org/aldrin/lunar/generator/kick;1"
 # MATILDE_2 = "@zzub.org/buzz2zzub/Matilde+Tracker2"
 
 PATTERN_LENGTH = 64
+
 
 def get_step_distance(skip_list):
     return skip_list[randint(0, len(skip_list)-1)]
