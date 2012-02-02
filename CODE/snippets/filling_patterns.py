@@ -141,8 +141,8 @@ def create_simple_format_from_machine(plugin):
     default_format = player.create_pattern_format(format_name)
     add_columns_to_format_from_plugin(default_format, plugin)
 
-    # for debug
     printInfo(format_name, plugin)
+    player.history_commit(0, 0, "Added Default %s Format" % format_name)
     return default_format
 
 
@@ -158,6 +158,38 @@ def add_subset_to_format_from_plugin(format, plugin, group, track, subset):
     for column in subset:
         format.add_column(plugin, group, track, column, column_idx)
         column_idx += 1
+
+
+def create_new_pattern(pattern_format, pattern_name, pattern_length):
+    new_pattern = player.create_pattern(pattern_format, pattern_name, pattern_length)
+    player.history_commit(0, 0, "Added %s" % pattern_name)
+    return new_pattern
+
+
+# add_track_### and add_tracks_### would benefit from a rewrite.
+def add_track_to_sequence_pattern(seq_plug, track, pattern_name):
+    current_count = seq_plug.get_track_count(2)
+    seq_plug.set_track_count(current_count + 1)
+
+    seq_pat = player.get_pattern_by_name(pattern_name)
+    seq_pat_format = seq_pat.get_format()
+
+    # add_column(plugin, group, track, i, column_idx)
+    current_count = seq_plug.get_track_count(2)
+    seq_pat_format.add_column(seq_plug, 2, track, 0, current_count-1)
+
+
+def add_tracks_to_sequence_pattern(num_tracks, pattern_name):
+    seq_plug = player.get_plugin_by_name("Pattern")
+    current_count = seq_plug.get_track_count(2)
+    
+    for i in range(num_tracks):
+        track = current_count + i
+        print("add_track_to_sequence_pattern(track -> track= %d" % track)
+        add_track_to_sequence_pattern(seq_plug, track, pattern_name)
+
+    player.history_commit(0, 0, "Added %d tracks to Sequence Pattern 00" % num_tracks)
+
 
 
 # machine locations
@@ -178,25 +210,22 @@ connect_machines("Kick > Master")
 # format creation
 synthline_format = create_simple_format_from_machine(synth)
 kick_format = create_simple_format_from_machine(kicksynth)
-player.history_commit(0, 0, "Added Default Format(s)")
 
 
-# Create the pattern
-stabs_pattern = player.create_pattern(synthline_format, "Stabs", PATTERN_LENGTH)
-player.history_commit(0, 0, "Added Stabs Pattern")
-
-kick_pattern = player.create_pattern(kick_format, "Kicks", PATTERN_LENGTH)
-player.history_commit(0, 0, "Added Kicks Pattern")
+# Create the patterns
+stabs_pattern = create_new_pattern(synthline_format, "Stabs", PATTERN_LENGTH)
+kick_pattern = create_new_pattern(kick_format, "Kicks", PATTERN_LENGTH)
 
 
 # fill the stab pattern
 tick_list = get_tick_triggers()
+synthID = synth.get_id()
 for tick_event in range(PATTERN_LENGTH):
     if tick_event in tick_list:
         notes = from_chord(["C-3", "E-3", "B-3", "G-2"])
         for track, note in enumerate(notes):
-            stabs_pattern.insert_value(synth.get_id(), 2, track, 0, tick_event, note, 0)
-            stabs_pattern.insert_value(synth.get_id(), 2, track, 0, tick_event+1, to_note("off"), 0) # note off
+            stabs_pattern.insert_value(synthID, 2, track, 0, tick_event, note, 0)
+            stabs_pattern.insert_value(synthID, 2, track, 0, tick_event+1, to_note("off"), 0) # note off
 player.history_commit(0, 0, "Filled Stabs Pattern")
 
 
@@ -214,33 +243,11 @@ sequence_pattern.set_display_resolution(16)
 player.history_commit(0, 0, "Added Stabs Pattern to Sequence Pattern 00")
 
 
-# REFACTOR FOLLOWING.
-# I'm putting this here for convenience now.
-def add_track_to_sequence_pattern(track, pattern_name):
-    seq_plug = player.get_plugin_by_name("Pattern")
-    current_count = seq_plug.get_track_count(2)
-    seq_plug.set_track_count(current_count + 1)
-
-    seq_pat = player.get_pattern_by_name(pattern_name)
-    seq_pat_format = seq_pat.get_format()
-    # add_column(plugin, group, track, i, column_idx)
-    current_count = seq_plug.get_track_count(2)
-    seq_pat_format.add_column(seq_plug, 2, track, 0, current_count-1)
-
-def add_tracks_to_sequence_pattern(num_tracks, pattern_name):
-    seq_plug = player.get_plugin_by_name("Pattern")
-    current_count = seq_plug.get_track_count(2)
-    
-    for i in range(num_tracks):
-        track = current_count + i
-        print("add_track_to_sequence_pattern(track -> track= %d" % track)
-        add_track_to_sequence_pattern(track, pattern_name)
-
-    player.history_commit(0, 0, "Added %d tracks to Sequence Pattern 00" % num_tracks)
-
 # add lunarkick track to Sequence, add pattern column first.
 # insert_value(self, pluginid, group, track, column, time, value, meta):
 add_tracks_to_sequence_pattern(5, "00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 1, 0, 0, kick_pattern.get_id(), 0)
 player.history_commit(0, 0, "Added Kick Pattern to Sequence Pattern 00")
+
 # set tpb = 8
+# todo
