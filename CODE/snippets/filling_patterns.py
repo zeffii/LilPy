@@ -185,9 +185,10 @@ def add_tracks_to_sequence_pattern(num_tracks, pattern_name):
     
     for i in range(num_tracks):
         track = current_count + i
-        print("add_track_to_sequence_pattern(track -> track= %d" % track)
+        # print("add_track_to_sequence_pattern(track -> track= %d" % track)
         add_track_to_sequence_pattern(seq_plug, track, pattern_name)
 
+    print('Tracks added: %d' % num_tracks)
     player.history_commit(0, 0, "Added %d tracks to Sequence Pattern 00" % num_tracks)
 
 
@@ -196,6 +197,10 @@ def add_tracks_to_sequence_pattern(num_tracks, pattern_name):
 synth_location = (-.25, -1)
 kick_location = (-.5, 0)
 
+# set song speed to tpb 8 / bpm 126
+time_plug = player.get_plugin_by_name("Sequence")
+time_plug.set_parameter_value(1,0,0,128,1)
+time_plug.set_parameter_value(1,0,1,8,1)
 
 # machine creation
 synth = create_machine(LUNAR_SYNTH, synth_location, 6, "Synthline")
@@ -249,5 +254,3 @@ add_tracks_to_sequence_pattern(5, "00")
 sequence_pattern.insert_value(seq_plug.get_id(), 2, 1, 0, 0, kick_pattern.get_id(), 0)
 player.history_commit(0, 0, "Added Kick Pattern to Sequence Pattern 00")
 
-# set tpb = 8
-# todo
