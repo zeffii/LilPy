@@ -16,8 +16,8 @@ player = doc.get_player()
 LUNAR_SYNTH = "@trac.zeitherrschaft.org/aldrin/lunar/generator/synth;1"
 LUNAR_KICK = "@trac.zeitherrschaft.org/aldrin/lunar/generator/kick;1"
 LUNAR_DELAY = "@trac.zeitherrschaft.org/aldrin/lunar/effect/delay;1"
-# FUNKY_VERB = "@zzub.org/buzz2zzub/Larsha+Funkyverb"
 MATILDE_2 = "@zzub.org/buzz2zzub/Matilde+Tracker2"
+# FUNKY_VERB = "@zzub.org/buzz2zzub/Larsha+Funkyverb"
 
 PATTERN_LENGTH = 64
 
