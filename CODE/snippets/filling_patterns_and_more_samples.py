@@ -320,7 +320,7 @@ for tick_event in range(0, PATTERN_LENGTH, 8):
 
 
 # fill the samples pattern, // TODO maybe set active wave table slot instead..
-sample_slot = 1 # 01
+sample_slot = 6 # 01
 for tick_event in range(4, PATTERN_LENGTH, 8):
     samples_pattern.insert_value(matilde_one.get_id(), 2, 0, 0, tick_event, to_note("C-4"), 0)
     samples_pattern.insert_value(matilde_one.get_id(), 2, 0, 1, tick_event, sample_slot, 0)
@@ -337,6 +337,18 @@ delay_machine_gparams = delay_one.get_parameter_count(1,0)
 for param in range(delay_machine_gparams):
     value = delay_states['sweet_state'][param]
     delay_one.set_parameter_value(1, 0, param, value, 1)
+
+
+
+''' S e t   G e n e r a t o r   s t a t e s ''' 
+
+
+
+kick_params = [0, 9004, 0, 2500, 5847, 363, 5632, 250, 4200]
+num_kick_params = kicksynth.get_parameter_count(1,0)
+for param in range(num_kick_params):
+    value = kick_params[param]
+    kicksynth.set_parameter_value(1,0,param, value, 1)
 
 
 
