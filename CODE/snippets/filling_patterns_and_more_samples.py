@@ -209,9 +209,9 @@ def load_samples_from_bank(full_path, sample_list, start_index):
     '''
     full_path:      directory must exist, will return None early in case it doesn't 
     sample_list:    case sensitive, any incorrect file names will be treated the same as an empty string, skip index.
-    start_index:   an int, within bounds ( 0  ->  199-len(sample_list) )  0 = iwavetableslow 01
+    start_index:    an int, within bounds 0 to 199 - (len(sample_list)) 
+                    0 = wavetable index 01
     '''
-    
     # check full path to see if it exists.
     if not os.path.isdir(full_path):
         print(full_path + ' appears invalid!')
