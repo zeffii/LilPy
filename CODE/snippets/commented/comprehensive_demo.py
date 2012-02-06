@@ -4,8 +4,8 @@ import buze
 import random
 import sys
 import os
-from pattern_helper import to_note
-from pattern_helper import from_chord
+from note_helper import to_note
+from note_helper import from_chord
 
 '''
 A comprehensive collection of convenience methods.
