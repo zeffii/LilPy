@@ -2,7 +2,6 @@ import armstrong
 import buze
 import os
 
-# assumption : that a master plugin ("Master")  is present in the document.
 doc = mainframe.get_document()
 player = doc.get_player()
 
@@ -10,6 +9,8 @@ player = doc.get_player()
 
 def load_samples_from_bank(full_path, sample_list, start_index):
     '''
+    Convenience method for loading from a list in a given directory, to wavetable
+    
     full_path:      directory must exist, will return None early in case it doesn't 
     sample_list:    case sensitive, any incorrect file names will be treated the same as an empty string, skip index.
     start_index:    an int, within bounds 0 to 199 - (len(sample_list)) 

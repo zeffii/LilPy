@@ -1,4 +1,6 @@
 # param tests
+# useful for finding the range of a parameter.
+
 import armstrong
 from pprint import pprint
 

@@ -1,6 +1,6 @@
 def to_note(s):
-        notes = [ "C-", "C#", "D-", "D#", "E-", "F-", "F#", "G-", "G#", "A-", "A#", "B-" ]
-	notes2 = [ "C-", "C#", "D-", "Eb", "E-", "F-", "F#", "G-", "Ab", "A-", "Bb", "B-" ]
+    notes = [ "C-", "C#", "D-", "D#", "E-", "F-", "F#", "G-", "G#", "A-", "A#", "B-" ]
+    notes2 = [ "C-", "C#", "D-", "Eb", "E-", "F-", "F#", "G-", "Ab", "A-", "Bb", "B-" ]
  
         if s == "off":
                 return 255
@@ -16,8 +16,8 @@ def to_note(s):
                 return -1
  
         return (notevalue + octave * 16) + 1
- 
-  
+
+
 
 def from_chord(notes):
 	note_list = []

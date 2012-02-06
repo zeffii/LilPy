@@ -3,6 +3,11 @@ import buze
 import sys
 import os
 
+'''
+This is the bareminimum required to load a sample into wavetable.
+Error checking is up to you. There is also an error checking version
+which offers the convenience of allowing multiple sample loading.
+'''
 
 doc = mainframe.get_document()
 player = doc.get_player()

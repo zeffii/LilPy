@@ -1,6 +1,14 @@
 import armstrong
-# assumption : that a master plugin ("Master")  is present in the document.
 
+'''
+- makes default pattern format from machine
+- connects machines
+
+assumption : that a master plugin ("Master")  is present in the document.
+- does not enter pattern values
+= does not sequence
+
+'''
 doc = mainframe.get_document()
 player = doc.get_player()
 

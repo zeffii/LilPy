@@ -2,6 +2,9 @@
 import armstrong
 from pprint import pprint
 
+# if you are exploring armstrong, the last few lines here allows you
+# print the methods that don't start with an underscore.
+
 doc = mainframe.get_document()
 player = doc.get_player()
 plugin = player.get_plugin_by_name("Synth")

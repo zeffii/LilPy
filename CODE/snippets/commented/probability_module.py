@@ -1,7 +1,9 @@
 import random
-from random import randint
-
-
+# from random import randint
+'''
+use a seed value in your main calling functions
+if you want some reproducability in your randomness
+'''
 
 def bool_from_probability(value):
     if value == 1.0:
