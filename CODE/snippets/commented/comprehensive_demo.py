@@ -1,9 +1,9 @@
-from random import randint
 import armstrong
 import buze
-import random
 import sys
 import os
+import random
+from random import randint
 from note_helper import to_note
 from note_helper import from_chord
 
@@ -14,6 +14,8 @@ This is a mere suggestion as to how you might use armstrong API.
 Your needs will inevitably vary, the functions are short enough 
 to be digested rapidly by a newcomer. 
 
+- Script assumes, you have used a default startupmode that includes the 
+- - - machines : Master, Sequence, Pattern. 
 - deals with random and seed
 - loads machines
 - creates default pattern formats
