@@ -85,5 +85,6 @@ sequence_pattern.set_row_count(512)
 sequence_pattern.set_display_resolution(16)
 
 # insert order
-
 # select pattern
+player.set_order_length(1)
+player.set_order_pattern(0, sequence_pattern)
