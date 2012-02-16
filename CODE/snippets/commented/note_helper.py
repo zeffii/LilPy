@@ -28,9 +28,6 @@ def to_note(s):
 
 
 def from_chord(notes):
-    note_list = []
-    for note in notes:
-        note_list.append(to_note(note))
-    return note_list
+    return [to_note(note) for note in notes]
 
   
