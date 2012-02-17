@@ -5,10 +5,8 @@
 
 
 def to_note(s):
-    if s == "off":
-        return 255
-    if s == "cut":
-        return 254
+    if s in ["off","cut"]:
+        return {"off":255, "cut":254}[s]
 
     notesList = [["C-"], ["C#"], ["D-"], ["D#", "Eb"], ["E-"], ["F-"],\
                  ["F#"], ["G-"], ["G#", "Ab"], ["A-"], ["A#", "Bb"], ["B-"]]
@@ -28,9 +26,6 @@ def to_note(s):
 
 
 def from_chord(notes):
-    note_list = []
-    for note in notes:
-        note_list.append(to_note(note))
-    return note_list
+    return [to_note(note) for note in notes]
 
   
