@@ -22,7 +22,7 @@ def bool_from_probability(value):
 def probability_trigger(probability):
     '''
     input:      probability value from 0.0 to 1.0 (including)
-    return:     boolean, or None by invalud input.
+    return:     boolean, or None by invalid input.
     '''
 
     #must be an int between 0, 1.  else print error and halt.    

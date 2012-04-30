@@ -5,8 +5,8 @@
 
 
 def to_note(s):
-    if s in ["off","cut"]:
-        return {"off":255, "cut":254}[s]
+    if s in ["off", "cut"]:
+        return {"off": 255, "cut": 254}[s]
 
     notesList = [["C-"], ["C#"], ["D-"], ["D#", "Eb"], ["E-"], ["F-"],\
                  ["F#"], ["G-"], ["G#", "Ab"], ["A-"], ["A#", "Bb"], ["B-"]]
@@ -17,7 +17,7 @@ def to_note(s):
         return -1
 
     octave = int(s[2:])
-    if octave not in range(0,10):
+    if octave not in range(0, 10):
         print(s + " octave out of range")
         return -1
     
